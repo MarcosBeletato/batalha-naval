@@ -7,3 +7,7 @@
     - 2 horizontais e 1 vertical.
 
 - Projeto sugerido pelo livro: Head First! Programming JavaScript.
+
+# 13/06/2022
+
+- Modularização do código.
