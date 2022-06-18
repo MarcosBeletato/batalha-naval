@@ -1,28 +1,47 @@
-let location1, location2, location3;
-let guess;
 let guesses = 0;
 let hits = 0;
 let isSunk = false;
 const resetButton = document.querySelector("#resetButton");
 const playButton = document.querySelector("#playButton");
+let grid = {
+   A: [],
+   B: [],
+   C: [],
+   D: [],
+   E: [],
+   F: [],
+   G: [],
+}
+
+function generateRandomCharacter() {
+    const characters = "ABCDEFG";
+    
+    return characters[Math.floor(Math.random() * 7)];
+}
 
 function generateCoordinates() {
-    location1 = Math.floor(Math.random() * 7);
+    let character, number;
 
-    if (location1 == 6) {
-        location2 = location1 - 1;
-        location3 = location1 - 2;
-    } else if (location1 == 5) {
-        location2 = location1 + 1;
-        location3 = location1 - 1;
-    } else {
-        location2 = location1 + 1;
-        location3 = location1 + 2;
+    for (let i = 0; i < 3; i++) {
+        character = generateRandomCharacter();
+        number = Math.floor(Math.random() * 5);
+
+        grid[character][number] = 1;
+        grid[character][number + 1] = 1;
+        grid[character][number + 2] = 1;
     }
 }
 
 function resetGame() {
-    location1 = Math.floor(Math.random() * 7);
+    grid = {
+        A: [],
+        B: [],
+        C: [],
+        D: [],
+        E: [],
+        F: [],
+        G: [],
+     }
     guesses = 0;
     hits = 0;
     isSunk = false;
@@ -35,24 +54,33 @@ function resetGame() {
 
 function playGame() {
     generateCoordinates();
+    let lineCharacter;
+    let columnNumber;
 
     while (!isSunk) {
-        guess = prompt("Prepare, aim, fire! (Enter a number from 0-6)");
+        lineCharacter = (prompt("Choose a line! (Enter a letter from A-G)")).toUpperCase();
+        columnNumber = prompt("Choose a column! (Enter a number from 0-6)");
     
-        if (guess < 0 || guess > 6 || guess == null || guess == "") {
-            alert("Enter a valid number (0-6)!");
+        if (lineCharacter != 'A' && lineCharacter != 'B' && lineCharacter != 'C' && lineCharacter != 'D' && lineCharacter != 'E' && 
+            lineCharacter != 'F' && lineCharacter != 'G' && lineCharacter == null && lineCharacter == '') {
+            alert("Enter a valid character! (A-G)");
+        } else if (columnNumber < 0 || columnNumber > 6 || columnNumber == null || columnNumber == "") { 
+            alert("Enter a valid number! (0-6)")
         } else {
             guesses += 1;
 
-            if (guess == location1 || guess == location2 || guess == location3) {
+            if (grid[lineCharacter][columnNumber] == 1) {
                 hits += 1;
+                grid[lineCharacter][columnNumber] = 2;
                 alert(`Hit!\nGuesses: ${guesses}\nHits: ${hits}`);
+            } else if (grid[lineCharacter][columnNumber] == 2) {
+                alert(`You've already destroyed that part of the ship!`)
             } else {
                 alert(`Miss!\nGuesses: ${guesses}\nHits: ${hits}`);
             }
         }
 
-        if (hits == 3) {
+        if (hits == 3) { // EDITAR PARA 9, TESTAR SE ESTÃO POSICIONADOS 3 NAVIOS DE VERDADE!
             alert(`You've sunk the ship!\nNumber of guesses: ${guesses}`);
             isSunk = true;
             resetButton.removeAttribute("disabled");
@@ -60,35 +88,3 @@ function playGame() {
         }
     }
 }
-
-/* 
-
-function playGame() {
-    generateCoordinates();
-
-    while (!isSunk) {
-        do {
-            guess = prompt("Prepare, aim, fire! (Enter a number from 0-6)");
-        } while (guess < 0 || guess > 6);
-        
-        if (guess == location1 || guess == location2 || guess == location3) {
-            guesses += 1;
-            hits += 1;
-            alert(`Hit!\nGuesses: ${guesses}\nHits: ${hits}`);
-        } else {
-            guesses += 1;
-            alert(`Miss!\nGuesses: ${guesses}\nHits: ${hits}`);
-        }
-    
-        if (hits == 3) {
-            alert(`You've sunk the ship!\nNumber of guesses: ${guesses}`);
-            isSunk = true;
-            resetButton.removeAttribute("disabled");
-            playButton.setAttribute("disabled", true);
-        }
-    }
-}
-
-*/
-
-

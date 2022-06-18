@@ -8,6 +8,15 @@
 
 - Projeto sugerido pelo livro: Head First! Programming JavaScript.
 
-# 13/06/2022
+# 12/06/2022
 
 - Modularização do código.
+
+# 13/06/2022
+
+- Atualização do HTML e CSS.
+
+- Grid expandido para 7x7.
+    - Lógica parcialmente refeita (falta ajustes):
+        - Testar para não colocar os barcos nos mesmos locais sobrescrevendo um já colocado.
+
